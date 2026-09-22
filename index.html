@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -128,7 +128,7 @@
     font-family:'JetBrains Mono',monospace; font-size:1.05rem; color:var(--text-dim); margin-top:20px; min-height:1.6em;
   }
   .hero-role span{color:var(--amber);}
-  .hero p.lede{color:var(--text-dim); font-size:1.05rem; max-width:52ch; margin-top:22px;}
+  .hero p.lede{color:var(--text-dim); font-size:1rem; max-width:52ch; margin-top:22px;}
 
   .hero-actions{display:flex; gap:16px; margin-top:36px; flex-wrap:wrap;}
   .btn{
@@ -163,12 +163,12 @@
     text-shadow:0 0 26px rgba(232,163,61,0.35);
   }
   .stats-band .stat span{color:var(--text); opacity:0.85; letter-spacing:0.06em;}
+  .stats-band .stat b {color: var(--amber); text-shadow: 0 0 26px rgba(232, 163, 61, 0.35); margin-bottom: 8px; text-align: center;}
   .stat b{position:relative;}
-  .stat b::after{
-    content:''; position:absolute; left:0; bottom:-6px; width:26px; height:2px; background:var(--amber);
-  }
+  .stat b::after {content: ''; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0; width: 80px; height: 2px; background: var(--amber);}
   .stat b{display:block; font-family:'Space Grotesk',sans-serif; font-size:1.7rem; color:var(--text);}
   .stat span{font-size:0.82rem; color:var(--text-faint); font-family:'JetBrains Mono',monospace;}
+  .stats-band .stat span.counter {font-size: 30px;}
 
   /* ---------- Hero terminal card ---------- */
   .term{
@@ -195,7 +195,7 @@
   .sec-head{margin-bottom:52px; max-width:640px;}
   .sec-tag{font-family:'JetBrains Mono',monospace; color:var(--amber); font-size:0.82rem; margin-bottom:12px; display:block;}
   .sec-head h2{font-size:clamp(1.7rem,3.4vw,2.5rem); font-weight:600;}
-  .sec-head p{color:var(--text-dim); margin-top:14px; font-size:1.02rem;}
+  .sec-head p{color:var(--text-dim); margin-top:14px; font-size:1rem;}
 
   section.pad{padding:110px 0;}
   .divider{height:1px; background:linear-gradient(90deg, transparent, var(--border-strong), transparent);}
@@ -209,7 +209,7 @@
   .role-list{display:flex; flex-direction:column; gap:14px;}
   .role-list li{display:flex; gap:12px; align-items:baseline; color:var(--text-dim); font-size:0.94rem;}
   .role-list li::before{content:'▸'; color:var(--amber); flex-shrink:0;}
-  .about-body p{color:var(--text-dim); margin-bottom:18px; font-size:1.02rem;}
+  .about-body p{color:var(--text-dim); margin-bottom:18px; font-size:14px;}
   .about-body strong{color:var(--text); font-weight:600;}
 
   .skill-chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:26px;}
@@ -250,50 +250,40 @@
     background:linear-gradient(135deg, var(--vc1,#1a2540), var(--vc2,#101a30));
   }
   .proj-visual .poster{
-    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-    filter:saturate(0.9) brightness(0.85); transition:opacity .6s var(--ease);
+    position:absolute; top:0; left:0; width:100%; height:auto; display:block;
+    filter:saturate(0.94) brightness(0.92);
+    animation:posterScroll var(--scroll-duration, 8s) ease-in-out infinite;
+    animation-delay:var(--scroll-delay, 0s);
+    will-change:transform;
+  }
+  @keyframes posterScroll{
+    0%, 10%  { transform:translateY(0); }
+    45%, 55% { transform:translateY(calc(-1 * var(--scroll-dist, 0px))); }
+    90%,100% { transform:translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .proj-visual .poster{animation:none;}
   }
   .proj-visual .glyph{
     position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
     font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:2.6rem;
     color:rgba(245,243,238,0.14); letter-spacing:-0.02em; z-index:0;
   }
-  .scale-wrap{
-    position:absolute; top:0; left:0; transform-origin:top left;
-    transform:scale(var(--scale, 0.28));
-    opacity:0; transition:opacity .7s var(--ease); z-index:1;
-  }
-  .scale-wrap.loaded{opacity:1;}
-  .scale-wrap iframe{
-    display:block; border:0; pointer-events:none;
-    width:1500px; height:2800px; background:#fff;
-    animation:autoscroll 26s ease-in-out infinite;
-    animation-delay:var(--scroll-delay, 0s);
-  }
-  @keyframes autoscroll{
-    0%, 8%   { transform:translateY(0); }
-    46%, 54% { transform:translateY(-1900px); }
-    92%,100% { transform:translateY(0); }
-  }
   .proj-visual::after{
     content:''; position:absolute; inset:0; z-index:2; pointer-events:none;
     background:linear-gradient(180deg, rgba(11,18,32,0.02) 55%, rgba(11,18,32,0.55) 100%);
   }
-  .live-badge{
+  .snapshot-badge{
     position:absolute; bottom:8px; right:10px; z-index:3;
     font-family:'JetBrains Mono',monospace; font-size:0.62rem; color:var(--text-dim);
     background:rgba(11,18,32,0.72); border:1px solid var(--border); padding:3px 8px; border-radius:5px;
     backdrop-filter:blur(4px); display:flex; align-items:center; gap:5px;
   }
-  .live-badge .lb-dot{width:6px; height:6px; border-radius:50%; background:var(--teal); animation:pulse 2s infinite;}
-  @media (prefers-reduced-motion: reduce){
-    .scale-wrap iframe{animation:none;}
-  }
   .proj-body{padding:22px 22px 24px; display:flex; flex-direction:column; gap:12px; flex:1;}
   .proj-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
   .proj-body h3{font-size:1.12rem; font-weight:600;}
   .proj-stack{font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--teal); white-space:nowrap; padding-top:3px;}
-  .proj-body p{color:var(--text-dim); font-size:0.92rem; flex:1;}
+  .proj-body p{color:var(--text-dim); font-size:14px; flex:1;}
   .proj-tags{display:flex; gap:8px; flex-wrap:wrap;}
   .tag{font-family:'JetBrains Mono',monospace; font-size:0.7rem; padding:4px 9px; border-radius:5px; border:1px solid var(--border-strong); color:var(--text-faint);}
   .proj-link{
@@ -304,12 +294,12 @@
   .proj-card:hover .proj-link svg{transform:translate(3px,-3px);}
 
   /* ---------- Process ---------- */
-  .process-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:22px;}
-  .proc-card{padding:26px 22px; border:1px solid var(--border); border-radius:var(--radius); background:var(--panel); transition:border-color .3s;}
+  .process-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:10px;}
+  .proc-card{padding:22px 18px; border:1px solid var(--border); border-radius:var(--radius); background:var(--panel); transition:border-color .3s;}
   .proc-card:hover{border-color:var(--teal);}
   .proc-idx{font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--amber); margin-bottom:14px;}
   .proc-card h4{font-size:1.02rem; margin-bottom:10px;}
-  .proc-card p{font-size:0.88rem; color:var(--text-dim);}
+  .proc-card p{font-size:14px; color:var(--text-dim);}
 
   /* ---------- Contact ---------- */
   .contact-panel{
@@ -330,9 +320,9 @@
   .cred-card:hover{border-color:var(--amber);}
   .cred-icon{font-size:1.6rem; line-height:1;}
   .cred-card h4{font-size:1rem; margin-bottom:6px;}
-  .cred-card p{color:var(--text-dim); font-size:0.88rem;}
+  .cred-card p{color:var(--text-dim); font-size:14px;}
   .contact-panel h2{font-size:clamp(1.8rem,4vw,2.8rem); position:relative;}
-  .contact-panel p{color:var(--text-dim); margin:18px auto 34px; max-width:52ch; position:relative;}
+  .contact-panel p{color:var(--text-dim); margin:18px auto 34px; max-width:52ch; position:relative; font-size:1rem;}
   .contact-methods{display:flex; gap:16px; justify-content:center; flex-wrap:wrap; position:relative;}
   .contact-methods a{
     display:flex; align-items:center; gap:10px; padding:12px 20px; border:1px solid var(--border-strong);
@@ -365,6 +355,7 @@
     .contact-methods{flex-direction:column;}
   }
 </style>
+
 </head>
 <body>
 
@@ -435,7 +426,7 @@
       <div class="hero-stats">
         <div class="stat"><b><span class="counter" data-target="5" data-suffix="+">0</span></b><span>YEARS EXPERIENCE</span></div>
         <div class="stat"><b><span class="counter" data-target="50" data-suffix="+">0</span></b><span>WORDPRESS SITES BUILT</span></div>
-        <div class="stat"><b><span class="counter" data-target="10" data-suffix="+">0</span></b><span>FEATURED PROJECTS</span></div>
+        <div class="stat"><b><span class="counter" data-target="11" data-suffix="+">0</span></b><span>FEATURED PROJECTS</span></div>
         <div class="stat"><b><span class="counter" data-target="30" data-suffix="%">0</span></b><span>DEV TIME CUT</span></div>
       </div>
     </div>
@@ -615,6 +606,7 @@
       </div>
     </div>
   </section>
+  <div class="wrap"><div class="divider"></div></div>
 
   <!-- CONTACT -->
   <section class="pad" id="contact">
@@ -652,7 +644,7 @@ const projects = [
     glyph: "CW",
     filter: "wordpress",
     c1:"#2b2418", c2:"#181310",
-    img: "https://circleswaterfront.com/wp-content/uploads/2026/03/circles-waterfront-restaurant.jpg"
+    img: "images/circles-waterfront.jpg"
   },
   {
     name: "Zelbst, Holmes & Butler",
@@ -664,7 +656,7 @@ const projects = [
     glyph: "ZH",
     filter: "wordpress",
     c1:"#1a2032", c2:"#10141f",
-    img: "https://zelbst.com/wp-content/uploads/2026/02/Banner_Attorney_Img.webp"
+    img: "images/zelbst.jpg"
   },
   {
     name: "OBI BioAesthetic Institute",
@@ -676,7 +668,7 @@ const projects = [
     glyph: "OB",
     filter: "wordpress",
     c1:"#241a2a", c2:"#150f1a",
-    img: "https://obiinstitute.com/wp-content/uploads/2022/03/OBI-office-outside.jpg"
+    img: "images/obi-institute.jpg"
   },
   {
     name: "Howard D. Popper, P.C.",
@@ -687,7 +679,8 @@ const projects = [
     tags: ["WordPress","Legal","SEO"],
     glyph: "HP",
     filter: "wordpress",
-    c1:"#1c2418", c2:"#11150e"
+    c1:"#1c2418", c2:"#11150e",
+    img: "images/popper-law.jpg"
   },
   {
     name: "Metro Weight Loss",
@@ -699,7 +692,7 @@ const projects = [
     glyph: "MW",
     filter: "wordpress",
     c1:"#152428", c2:"#0d1618",
-    img: "https://metroweightloss.com/wp-content/uploads/2022/02/bannercaptionimage.jpg"
+    img: "images/metro-weight-loss.jpg"
   },
   {
     name: "RX Express Compounding",
@@ -711,7 +704,7 @@ const projects = [
     glyph: "RX",
     filter: "shopify",
     c1:"#122a22", c2:"#0b1a16",
-    noScroll: true
+    img: "images/rx-express.jpg"
   },
   {
     name: "Kyntoro",
@@ -722,7 +715,20 @@ const projects = [
     tags: ["Shopify","Fashion","D2C"],
     glyph: "KY",
     filter: "shopify",
-    c1:"#241c14", c2:"#150f0a"
+    c1:"#241c14", c2:"#150f0a",
+    img: "images/kyntoro.jpg"
+  },
+  {
+    name: "Global Marine Brokerage",
+    url: "https://globalmarineboats.com/",
+    display: "globalmarineboats.com",
+    desc: "Yacht brokerage site for a Florida-based dealer — cash-purchase and buy/sell/trade-in flows plus a live yacht-for-sale listings grid.",
+    stack: "WordPress",
+    tags: ["WordPress","Marine","Listings"],
+    glyph: "GM",
+    filter: "wordpress",
+    c1:"#12182a", c2:"#0a0e1a",
+    img: "images/global-marine.jpg"
   },
   {
     name: "TheDemoStop",
@@ -733,7 +739,8 @@ const projects = [
     tags: ["WordPress","E-commerce","Retail"],
     glyph: "DS",
     filter: "wordpress",
-    c1:"#2a1a1c", c2:"#180f10"
+    c1:"#2a1a1c", c2:"#180f10",
+    img: "images/thedemostop.jpg"
   },
   {
     name: "TheDemoStop (React Beta)",
@@ -745,19 +752,19 @@ const projects = [
     glyph: "DS",
     filter: "react",
     c1:"#182a2c", c2:"#0e181a",
-    noScroll: true
+    img: "images/thedemostop-beta.jpg"
   },
-  {
-    name: "Stech Local",
-    url: "https://app.stechlocal.com/",
-    display: "app.stechlocal.com",
-    desc: "React application built with reusable component libraries, Hooks, and React Router, integrating REST APIs for a fast, scalable interface.",
-    stack: "React",
-    tags: ["React","Hooks","REST API"],
-    glyph: "SL",
-    filter: "react",
-    c1:"#1e1a2c", c2:"#120f1a"
-  }
+  // {
+  //   name: "Stech Local",
+  //   url: "https://app.stechlocal.com/",
+  //   display: "app.stechlocal.com",
+  //   desc: "React application built with reusable component libraries, Hooks, and React Router, integrating REST APIs for a fast, scalable interface.",
+  //   stack: "React",
+  //   tags: ["React","Hooks","REST API"],
+  //   glyph: "SL",
+  //   filter: "react",
+  //   c1:"#1e1a2c", c2:"#120f1a"
+  // }
 ];
 
 const grid = document.getElementById('projGrid');
@@ -782,12 +789,10 @@ function renderProjects(filter){
           <div class="dots"><span></span><span></span><span></span></div>
           <div class="url-pill">🔒 ${p.display}</div>
         </div>
-        <div class="proj-visual" style="--vc1:${p.c1}; --vc2:${p.c2};" data-noscroll="${p.noScroll ? '1' : '0'}">
-          ${p.img ? `<img class="poster" src="${p.img}" alt="${p.name} screenshot" loading="lazy" onerror="this.remove();">` : `<span class="glyph">${p.glyph}</span>`}
-          <div class="scale-wrap">
-            <iframe src="${p.url}" title="${p.noScroll ? 'First-fold preview' : 'Live scrolling preview'} of ${p.name}" loading="lazy" tabindex="-1" referrerpolicy="no-referrer"></iframe>
-          </div>
-          <span class="live-badge"><span class="lb-dot"></span> ${p.noScroll ? 'live · first fold' : 'live preview'}</span>
+        <div class="proj-visual" style="--vc1:${p.c1}; --vc2:${p.c2};">
+          ${p.img ? `<img class="poster" src="${p.img}" alt="${p.name} screenshot" loading="lazy" onerror="this.remove(); this.nextElementSibling && (this.nextElementSibling.style.display='flex');">` : ''}
+          <span class="glyph" style="${p.img ? 'display:none;' : ''}">${p.glyph}</span>
+          ${p.img ? `<span class="snapshot-badge">📷 saved screenshot</span>` : ''}
         </div>
         <div class="proj-body">
           <div class="proj-top">
@@ -802,44 +807,40 @@ function renderProjects(filter){
       grid.appendChild(card);
     });
   observeReveals();
-  setupPreviews();
+  setupPosterScroll();
 }
 renderProjects('all');
 
-// ---------- Auto-scrolling live preview setup ----------
-function setupPreviews(){
-  const visuals = document.querySelectorAll('.proj-visual');
-  const IFRAME_W = 1500;
-  visuals.forEach((visual, i) => {
-    const wrap = visual.querySelector('.scale-wrap');
-    const iframe = visual.querySelector('iframe');
-    if(!wrap || !iframe) return;
-    const scale = visual.clientWidth / IFRAME_W;
-    wrap.style.setProperty('--scale', scale);
-    if(visual.dataset.noscroll === '1'){
-      // Show just the first fold — no auto-scroll animation for this project.
-      iframe.style.animation = 'none';
-      iframe.style.transform = 'translateY(0)';
-    } else {
-      iframe.style.setProperty('--scroll-delay', (i * 1.4) + 's');
-      iframe.style.animationDelay = (i * 1.4) + 's';
+// ---------- Static screenshot scroll animation ----------
+// Uses the saved screenshot's own height to slowly pan down through the
+// page and back — no live embed, so it keeps working even if a project's
+// live site changes or goes offline later.
+function setupPosterScroll(){
+  document.querySelectorAll('.proj-visual .poster').forEach((img, i) => {
+    const container = img.closest('.proj-visual');
+    img.style.animationDelay = (i * 1.1) + 's';
+
+    function measure(){
+      if(!img.naturalWidth) return;
+      const displayedWidth = container.clientWidth;
+      const scaledHeight = img.naturalHeight * (displayedWidth / img.naturalWidth);
+      const dist = Math.max(scaledHeight - container.clientHeight, 0);
+      img.style.setProperty('--scroll-dist', dist + 'px');
+      // Longer pages scroll a bit slower so the motion stays gentle.
+      const duration = Math.min(24, Math.max(12, dist / 90));
+      img.style.setProperty('--scroll-duration', duration + 's');
     }
-    // Reveal the live preview once the frame finishes loading.
-    // If a site blocks embedding, the poster image (or glyph) stays visible instead.
-    iframe.addEventListener('load', () => wrap.classList.add('loaded'), { once: true });
+
+    if(img.complete) measure();
+    else img.addEventListener('load', measure, { once: true });
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(measure, 200);
+    });
   });
 }
-
-let previewResizeTimer;
-window.addEventListener('resize', () => {
-  clearTimeout(previewResizeTimer);
-  previewResizeTimer = setTimeout(() => {
-    document.querySelectorAll('.proj-visual').forEach(visual => {
-      const wrap = visual.querySelector('.scale-wrap');
-      if(wrap) wrap.style.setProperty('--scale', visual.clientWidth / 1500);
-    });
-  }, 200);
-});
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
